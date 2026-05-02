@@ -31,7 +31,7 @@ h1 {
 }
 
 h2 {
-  @apply max-sm:text-xl text-3xl text-dark-200;
+  @apply max-sm:text-xl text-3xl font-semibold dark:text-slate-100;
 }
 
 label {
@@ -51,13 +51,31 @@ form {
 
 @layer components {
   .text-gradient {
-    @apply bg-clip-text text-transparent bg-gradient-to-r from-[#AB8C95] via-[#000000] to-[#8E97C5];
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-[#FF9FB2] via-[#FFFFFF] to-[#8FB8FF];
   }
   .gradient-border {
-    @apply bg-gradient-to-b from-light-blue-100 to-light-blue-200 p-4 rounded-2xl;
+    @apply bg-gradient-to-b
+    from-[#F3F7FF]
+    to-[#E8EEFF]
+    dark:from-[#1A1B26]
+    dark:to-[#111827]
+    border border-[#DCE7FF]
+    dark:border-[#2A3B5F]
+    p-4
+    rounded-2xl;
   }
   .primary-button {
-    @apply primary-gradient text-white rounded-full px-4 py-2 cursor-pointer w-full;
+    @apply primary-gradient
+    text-white
+    rounded-full
+    px-4
+    py-2
+    cursor-pointer
+    w-full
+    transition-all duration-300
+    hover:brightness-110
+    active:scale-[0.98]
+    dark:shadow-[0_0_25px_rgba(255,122,162,0.15)];
   }
   .resume-nav {
     @apply flex flex-row justify-between items-center p-4 border-b border-gray-200;
@@ -85,7 +103,19 @@ form {
   }
 
   .resume-card {
-    @apply flex flex-col gap-8 h-[560px] w-[350px] lg:w-[430px] xl:w-[490px] bg-white rounded-2xl p-4;
+    @apply flex flex-col gap-8
+    h-[560px]
+    w-[350px]
+    lg:w-[430px]
+    xl:w-[490px]
+    bg-white/90 dark:bg-black/30
+    backdrop-blur-2xl
+    border border-white/20 dark:border-white/10
+    rounded-2xl
+    p-4
+    transition-all duration-300
+    hover:-translate-y-1
+    dark:shadow-[0_0_50px_rgba(139,184,255,0.06)];
   }
 
   .resume-card-header {
@@ -97,7 +127,8 @@ form {
   }
 
   .navbar {
-    @apply flex flex-row justify-between items-center bg-white rounded-full p-4 w-full px-10 max-w-[1200px] mx-auto;
+    @apply flex flex-row justify-between items-center bg-black/40 backdrop-blur-2xl border border-white/10
+    shadow-sm dark:shadow-[0_0_40px_rgba(255,255,255,0.03)] rounded-full p-4 px-10 w-full max-w-[1200px] mx-auto;
   }
 
   .score-badge {
@@ -121,7 +152,7 @@ form {
 }
 
 @utility text-gradient {
-  @apply bg-clip-text text-transparent bg-gradient-to-r from-[#AB8C95] via-[#000000] to-[#8E97C5];
+  @apply bg-clip-text text-transparent bg-gradient-to-r from-[#FF9FB2] via-[#FFFFFF] to-[#8FB8FF];
 }
 
 @utility gradient-hover {
@@ -129,8 +160,7 @@ form {
 }
 
 @utility primary-gradient {
-  background: linear-gradient(to bottom, #8e98ff, #606beb);
-  box-shadow: 0px 74px 21px 0px #6678ef00;
+  @apply bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500;
 }
 
 @utility primary-gradient-hover {
