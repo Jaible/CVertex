@@ -35,14 +35,16 @@ h2 {
 }
 
 label {
-  @apply text-dark-200;
+  @apply font-medium text-zinc-300;
 }
 input {
-  @apply w-full p-4 inset-shadow rounded-2xl focus:outline-none bg-white;
+  @apply w-full p-4 rounded-2xl focus:outline-none bg-black/30 backdrop-blur-xl text-zinc-100 border border-white/10
+  placeholder:text-zinc-500 transition-all duration-300 focus:border-blue-500 dark:shadow-[0_0_20px_rgba(139,184,255,0.06)];
 }
 
 textarea {
-  @apply w-full p-4 inset-shadow rounded-2xl focus:outline-none bg-white;
+  @apply w-full p-4 rounded-2xl focus:outline-none bg-black/30 backdrop-blur-xl text-zinc-100 border border-white/10
+  placeholder:text-zinc-500 transition-all duration-300 focus:border-blue-500 shadow-[0_0_20px_rgba(139,184,255,0.06)];
 }
 
 form {
@@ -143,7 +145,7 @@ form {
     @apply relative p-8 text-center transition-all duration-700 cursor-pointer bg-white rounded-2xl min-h-[208px];
   }
   .uploader-selected-file {
-    @apply flex items-center justify-between p-3 bg-gray-50 rounded-2xl;
+    @apply flex items-center justify-between p-3 bg-black/30 backdrop-blur-2xl border border-white/10 rounded-2xl;
   }
 }
 
