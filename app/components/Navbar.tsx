@@ -22,23 +22,6 @@ const Navbar = () => {
             >
                 Upload Resume
             </Link>
-            <button
-                className="
-                            bg-red-500/15 hover:bg-red-500/25
-                            border border-red-500/20
-                            text-red-300
-                            px-5 py-3
-                            rounded-2xl
-                            backdrop-blur-md
-                            transition-all duration-200
-                            cursor-pointer
-                            font-semibold
-                            disabled:opacity-50
-                            disabled:pointer-events-none"
-                onClick={auth.signOut}
-            >
-                <p>Log Out</p>
-            </button>
         </nav>
     );
 };
