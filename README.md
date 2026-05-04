@@ -46,9 +46,9 @@ CVertex is an AI-powered resume analysis platform designed to help users improve
 > Add screenshots here
 
 ```md
-![Home](./screenshots/home.png)
-![Upload](./screenshots/upload.png)
-![Review](./screenshots/review.png)
+![Home](./public/images/Home.png)
+![Upload](./public/images/Upload.png)
+![Review](./public/images/Review.png)
 ```
 
 ---
