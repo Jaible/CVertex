@@ -42,14 +42,9 @@ CVertex is an AI-powered resume analysis platform designed to help users improve
 ---
 
 ## Screenshots
-
-> Add screenshots here
-
-```md
-![Home](./public/images/Home.png)
-![Upload](./public/images/Upload.png)
-![Review](./public/images/Review.png)
-```
+![Home](public/images/Home.png)
+![Upload](public/images/Upload.png)
+![Review](public/images/Review.png)
 
 ---
 
@@ -58,7 +53,7 @@ CVertex is an AI-powered resume analysis platform designed to help users improve
 Clone the repository:
 
 ```bash
-git clone https://github.com/yourusername/cvertex.git
+git clone https://github.com/jaible/cvertex.git
 ```
 
 Move into the project directory:
