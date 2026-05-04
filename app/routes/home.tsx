@@ -78,7 +78,7 @@ export default function Home() {
         <section className="main-section">
           <div className="page-heading py-16">
             <h1>
-              Track your applications & Resume ratings!
+              Track applications. Improve resumes.
             </h1>
 
             {!loadingResumes && resumes.length === 0 ? (
@@ -88,8 +88,7 @@ export default function Home() {
                 </h2>
             ) : (
                 <h2>
-                  Review your submissions and check
-                  AI-powered feedback.
+                  Analyze every resume with intelligent insights.
                 </h2>
             )}
           </div>

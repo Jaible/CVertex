@@ -9,6 +9,17 @@ import { convertPdfToImage } from "~/lib/pdf2img";
 
 import { generateUUID } from "../lib/utils";
 import { prepareInstructions } from "../../constants";
+import type {Route} from "../../.react-router/types/app/routes/+types/home";
+
+export function meta({}: Route.MetaArgs) {
+    return [
+        { title: "CVertex | Upload" },
+        {
+            name: "description",
+            content: "Upload your Resume!",
+        },
+    ];
+}
 
 const Upload = () => {
     const { fs, ai, kv } = usePuterStore();
@@ -151,7 +162,7 @@ const Upload = () => {
 
             <section className="main-section">
                 <div className="page-heading py-16">
-                    <h1>Smart feedback for your dream job</h1>
+                    <h1>Smarter feedback for stronger applications.</h1>
 
                     {isProcessing ? (
                         <div className="flex flex-col items-center gap-6">
@@ -165,7 +176,7 @@ const Upload = () => {
                         </div>
                     ) : (
                         <h2>
-                            Drop your resume for an ATS score and improvement tips!
+                            Receive detailed resume insights powered by AI.
                         </h2>
                     )}
 
