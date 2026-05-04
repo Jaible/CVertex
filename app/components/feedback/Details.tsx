@@ -10,12 +10,12 @@ const ScoreBadge = ({ score }: { score: number }) => {
     return (
         <div
             className={cn(
-                "flex flex-row gap-1 items-center px-2 py-0.5 rounded-[96px]",
+                "flex flex-row gap-1 items-center px-3 py-1 rounded-full border backdrop-blur-md",
                 score > 69
-                    ? "bg-badge-green"
+                    ? "bg-emerald-500/15 border-emerald-500/20"
                     : score > 39
-                        ? "bg-badge-yellow"
-                        : "bg-badge-red"
+                        ? "bg-yellow-500/15 border-yellow-500/20"
+                        : "bg-red-500/15 border-red-500/20"
             )}
         >
             <img
@@ -23,14 +23,15 @@ const ScoreBadge = ({ score }: { score: number }) => {
                 alt="score"
                 className="size-4"
             />
+
             <p
                 className={cn(
-                    "text-sm font-medium",
+                    "text-sm font-semibold",
                     score > 69
-                        ? "text-badge-green-text"
+                        ? "text-emerald-300"
                         : score > 39
-                            ? "text-badge-yellow-text"
-                            : "text-badge-red-text"
+                            ? "text-yellow-300"
+                            : "text-red-300"
                 )}
             >
                 {score}/100
@@ -61,29 +62,35 @@ const CategoryContent = ({
 }) => {
     return (
         <div className="flex flex-col gap-4 items-center w-full">
-            <div className="bg-gray-50 w-full rounded-lg px-5 py-4 grid grid-cols-2 gap-4">
+            <div className="bg-zinc-900/50 border border-zinc-800 backdrop-blur-xl w-full rounded-2xl px-5 py-4 grid grid-cols-2 gap-4">
                 {tips.map((tip, index) => (
                     <div className="flex flex-row gap-2 items-center" key={index}>
                         <img
                             src={
-                                tip.type === "good" ? "/icons/check.svg" : "/icons/warning.svg"
+                                tip.type === "good"
+                                    ? "/icons/check.svg"
+                                    : "/icons/warning.svg"
                             }
                             alt="score"
                             className="size-5"
                         />
-                        <p className="text-xl text-gray-500 ">{tip.tip}</p>
+
+                        <p className="text-lg text-zinc-300">
+                            {tip.tip}
+                        </p>
                     </div>
                 ))}
             </div>
+
             <div className="flex flex-col gap-4 w-full">
                 {tips.map((tip, index) => (
                     <div
                         key={index + tip.tip}
                         className={cn(
-                            "flex flex-col gap-2 rounded-2xl p-4",
+                            "flex flex-col gap-2 rounded-2xl p-5 border backdrop-blur-xl",
                             tip.type === "good"
-                                ? "bg-green-50 border border-green-200 text-green-700"
-                                : "bg-yellow-50 border border-yellow-200 text-yellow-700"
+                                ? "bg-emerald-500/10 border-emerald-500/20 text-emerald-200"
+                                : "bg-yellow-500/10 border-yellow-500/20 text-yellow-200"
                         )}
                     >
                         <div className="flex flex-row gap-2 items-center">
@@ -96,9 +103,15 @@ const CategoryContent = ({
                                 alt="score"
                                 className="size-5"
                             />
-                            <p className="text-xl font-semibold">{tip.tip}</p>
+
+                            <p className="text-xl font-semibold">
+                                {tip.tip}
+                            </p>
                         </div>
-                        <p>{tip.explanation}</p>
+
+                        <p className="text-sm leading-relaxed opacity-80">
+                            {tip.explanation}
+                        </p>
                     </div>
                 ))}
             </div>
