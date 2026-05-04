@@ -1,16 +1,16 @@
-import { useEffect, useRef, useState } from "react";
+import React, { useId } from "react";
 
-const ScoreGauge = ({ score = 75 }: { score: number }) => {
-    const [pathLength, setPathLength] = useState(0);
-    const pathRef = useRef<SVGPathElement>(null);
+interface ScoreGaugeProps {
+    score?: number;
+}
 
-    const percentage = score / 100;
+const PATH_LENGTH = 126;
 
-    useEffect(() => {
-        if (pathRef.current) {
-            setPathLength(pathRef.current.getTotalLength());
-        }
-    }, []);
+const ScoreGauge: React.FC<ScoreGaugeProps> = ({ score = 75 }) => {
+    const gradientId = useId();
+
+    const normalizedScore = Math.min(Math.max(score, 0), 100);
+    const percentage = normalizedScore / 100;
 
     return (
         <div className="flex flex-col items-center">
@@ -18,7 +18,7 @@ const ScoreGauge = ({ score = 75 }: { score: number }) => {
                 <svg viewBox="0 0 100 50" className="w-full h-full">
                     <defs>
                         <linearGradient
-                            id="gaugeGradient"
+                            id={gradientId}
                             x1="0%"
                             y1="0%"
                             x2="100%"
@@ -30,7 +30,7 @@ const ScoreGauge = ({ score = 75 }: { score: number }) => {
                         </linearGradient>
                     </defs>
 
-                    {/* Background arc */}
+                    {/* Background */}
                     <path
                         d="M10,50 A40,40 0 0,1 90,50"
                         fill="none"
@@ -39,24 +39,23 @@ const ScoreGauge = ({ score = 75 }: { score: number }) => {
                         strokeLinecap="round"
                     />
 
-                    {/* Foreground arc */}
+                    {/* Progress */}
                     <path
-                        ref={pathRef}
                         d="M10,50 A40,40 0 0,1 90,50"
                         fill="none"
-                        stroke="url(#gaugeGradient)"
+                        stroke={`url(#${gradientId})`}
                         strokeWidth="10"
                         strokeLinecap="round"
-                        strokeDasharray={pathLength}
-                        strokeDashoffset={pathLength * (1 - percentage)}
-                        className="drop-shadow-[0_0_10px_rgba(168,85,247,0.45)]"
+                        strokeDasharray={PATH_LENGTH}
+                        strokeDashoffset={PATH_LENGTH * (1 - percentage)}
+                        className="transition-all duration-500 drop-shadow-[0_0_10px_rgba(168,85,247,0.45)]"
                     />
                 </svg>
 
-                <div className="absolute inset-0 flex flex-col items-center justify-center pt-2">
-                    <div className="text-xl font-semibold pt-4 text-zinc-100">
-                        {score}/100
-                    </div>
+                <div className="absolute inset-0 flex items-center justify-center pt-6">
+                    <p className="text-xl font-semibold text-zinc-100">
+                        {normalizedScore}/100
+                    </p>
                 </div>
             </div>
         </div>

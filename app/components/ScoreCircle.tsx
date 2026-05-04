@@ -1,57 +1,75 @@
-const ScoreCircle = ({ score = 75 }: { score: number }) => {
-    const radius = 40;
-    const stroke = 8;
-    const normalizedRadius = radius - stroke / 2;
-    const circumference = 2 * Math.PI * normalizedRadius;
-    const progress = score / 100;
-    const strokeDashoffset = circumference * (1 - progress);
+import React, { useId, useMemo } from "react";
+
+interface ScoreCircleProps {
+    score?: number;
+}
+
+const ScoreCircle: React.FC<ScoreCircleProps> = ({ score = 75 }) => {
+    const gradientId = useId();
+
+    const { normalizedRadius, circumference, strokeDashoffset } = useMemo(() => {
+        const radius = 40;
+        const stroke = 8;
+
+        const normalizedRadius = radius - stroke / 2;
+        const circumference = 2 * Math.PI * normalizedRadius;
+        const progress = Math.min(Math.max(score, 0), 100) / 100;
+
+        return {
+            normalizedRadius,
+            circumference,
+            strokeDashoffset: circumference * (1 - progress),
+        };
+    }, [score]);
 
     return (
-        <div className="relative w-[100px] h-[100px]">
+        <div className="relative size-[100px]">
             <svg
-                height="100%"
-                width="100%"
                 viewBox="0 0 100 100"
-                className="transform -rotate-90"
+                className="-rotate-90 w-full h-full"
             >
-                {/* Background circle */}
-                <circle
-                    cx="50"
-                    cy="50"
-                    r={normalizedRadius}
-                    stroke="rgb(39 39 42)"
-                    strokeWidth={stroke}
-                    fill="transparent"
-                />
-
-                {/* Gradient */}
                 <defs>
-                    <linearGradient id="grad" x1="1" y1="0" x2="0" y2="1">
+                    <linearGradient
+                        id={gradientId}
+                        x1="1"
+                        y1="0"
+                        x2="0"
+                        y2="1"
+                    >
                         <stop offset="0%" stopColor="#FF7AA2" />
                         <stop offset="50%" stopColor="#C084FC" />
                         <stop offset="100%" stopColor="#8FB8FF" />
                     </linearGradient>
                 </defs>
 
-                {/* Progress circle */}
+                {/* Background */}
                 <circle
                     cx="50"
                     cy="50"
                     r={normalizedRadius}
-                    stroke="url(#grad)"
-                    strokeWidth={stroke}
+                    stroke="rgb(39 39 42)"
+                    strokeWidth="8"
+                    fill="transparent"
+                />
+
+                {/* Progress */}
+                <circle
+                    cx="50"
+                    cy="50"
+                    r={normalizedRadius}
+                    stroke={`url(#${gradientId})`}
+                    strokeWidth="8"
                     fill="transparent"
                     strokeDasharray={circumference}
                     strokeDashoffset={strokeDashoffset}
                     strokeLinecap="round"
-                    className="drop-shadow-[0_0_8px_rgba(192,132,252,0.35)] transition-all duration-500"
+                    className="transition-all duration-500 drop-shadow-[0_0_8px_rgba(192,132,252,0.35)]"
                 />
             </svg>
 
-            {/* Score */}
-            <div className="absolute inset-0 flex flex-col items-center justify-center">
-                <span className="font-semibold text-sm text-zinc-900 dark:text-zinc-100">
-                    {`${score}/100`}
+            <div className="absolute inset-0 flex items-center justify-center">
+                <span className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">
+                    {score}/100
                 </span>
             </div>
         </div>

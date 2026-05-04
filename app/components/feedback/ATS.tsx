@@ -1,34 +1,42 @@
 import { cn } from "~/lib/utils";
 
-const ATS = ({
-                 score,
-                 suggestions,
-             }: {
+interface ATSProps {
     score: number;
-    suggestions: { type: "good" | "improve"; tip: string }[];
-}) => {
+    suggestions: {
+        type: "good" | "improve";
+        tip: string;
+    }[];
+}
+
+const ATS = ({ score, suggestions }: ATSProps) => {
+    const isStrong = score > 69;
+    const isGood = score > 49;
+
+    const containerStyles = isStrong
+        ? "bg-gradient-to-b from-emerald-500/15 to-zinc-900 border-emerald-500/20"
+        : isGood
+            ? "bg-gradient-to-b from-yellow-500/15 to-zinc-900 border-yellow-500/20"
+            : "bg-gradient-to-b from-red-500/15 to-zinc-900 border-red-500/20";
+
+    const scoreIcon = isStrong
+        ? "/icons/ats-good.svg"
+        : isGood
+            ? "/icons/ats-warning.svg"
+            : "/icons/ats-bad.svg";
+
     return (
         <div
             className={cn(
-                "rounded-2xl w-full p-8 flex flex-col gap-4 border backdrop-blur-2xl shadow-md transition-all duration-300",
-                score > 69
-                    ? "bg-gradient-to-b from-emerald-500/15 to-zinc-900 border-emerald-500/20"
-                    : score > 49
-                        ? "bg-gradient-to-b from-yellow-500/15 to-zinc-900 border-yellow-500/20"
-                        : "bg-gradient-to-b from-red-500/15 to-zinc-900 border-red-500/20"
+                "w-full rounded-2xl border p-8 shadow-md backdrop-blur-2xl transition-all duration-300",
+                "flex flex-col gap-4",
+                containerStyles
             )}
         >
-            <div className="flex flex-row gap-4 items-center">
+            <div className="flex items-center gap-4">
                 <img
-                    src={
-                        score > 69
-                            ? "/icons/ats-good.svg"
-                            : score > 49
-                                ? "/icons/ats-warning.svg"
-                                : "/icons/ats-bad.svg"
-                    }
-                    alt="ATS"
-                    className="w-10 h-10"
+                    src={scoreIcon}
+                    alt="ATS score"
+                    className="size-10 shrink-0"
                 />
 
                 <p className="text-2xl font-semibold text-zinc-100">
@@ -36,8 +44,8 @@ const ATS = ({
                 </p>
             </div>
 
-            <div className="flex flex-col gap-2">
-                <p className="font-medium text-xl text-zinc-100">
+            <div className="flex flex-col gap-3">
+                <p className="text-xl font-medium text-zinc-100">
                     How well does your resume pass through Applicant Tracking Systems?
                 </p>
 
@@ -46,30 +54,33 @@ const ATS = ({
                     performed:
                 </p>
 
-                {suggestions.map((suggestion, index) => (
-                    <div
-                        className="flex flex-row gap-2 items-center"
-                        key={index}
-                    >
-                        <img
-                            src={
-                                suggestion.type === "good"
-                                    ? "/icons/check.svg"
-                                    : "/icons/warning.svg"
-                            }
-                            alt="ATS"
-                            className="w-4 h-4"
-                        />
+                <div className="flex flex-col gap-2">
+                    {suggestions.map((suggestion, index) => (
+                        <div
+                            key={`${suggestion.tip}-${index}`}
+                            className="flex items-center gap-2"
+                        >
+                            <img
+                                src={
+                                    suggestion.type === "good"
+                                        ? "/icons/check.svg"
+                                        : "/icons/warning.svg"
+                                }
+                                alt=""
+                                aria-hidden="true"
+                                className="size-4 shrink-0"
+                            />
 
-                        <p className="text-lg text-zinc-400">
-                            {suggestion.tip}
-                        </p>
-                    </div>
-                ))}
+                            <p className="text-lg text-zinc-400">
+                                {suggestion.tip}
+                            </p>
+                        </div>
+                    ))}
+                </div>
 
                 <p className="text-lg text-zinc-400">
-                    Want a better score? Improve your resume by applying the suggestions
-                    listed below.
+                    Want a better score? Improve your resume by applying the
+                    suggestions listed below.
                 </p>
             </div>
         </div>

@@ -1,26 +1,45 @@
 import ScoreGauge from "../ScoreGauge";
+import { cn } from "~/lib/utils";
+
+const getScoreStyles = (score: number) => {
+    if (score > 69) {
+        return {
+            badge:
+                "bg-emerald-500/15 border border-emerald-500/20 text-emerald-300",
+            text: "text-emerald-300",
+            label: "Strong",
+        };
+    }
+
+    if (score > 49) {
+        return {
+            badge:
+                "bg-yellow-500/15 border border-yellow-500/20 text-yellow-300",
+            text: "text-yellow-300",
+            label: "Good Start",
+        };
+    }
+
+    return {
+        badge:
+            "bg-red-500/15 border border-red-500/20 text-red-300",
+        text: "text-red-300",
+        label: "Needs Work",
+    };
+};
 
 const ScoreBadge = ({ score }: { score: number }) => {
-    const badgeColor =
-        score > 69
-            ? "bg-emerald-500/15 border border-emerald-500/20 text-emerald-300"
-            : score > 49
-                ? "bg-yellow-500/15 border border-yellow-500/20 text-yellow-300"
-                : "bg-red-500/15 border border-red-500/20 text-red-300";
-
-    const badgeText =
-        score > 69
-            ? "Strong"
-            : score > 49
-                ? "Good Start"
-                : "Needs Work";
+    const styles = getScoreStyles(score);
 
     return (
         <div
-            className={`px-3 py-1 rounded-full backdrop-blur-md ${badgeColor}`}
+            className={cn(
+                "px-3 py-1 rounded-full backdrop-blur-md",
+                styles.badge
+            )}
         >
             <p className="text-xs font-semibold tracking-wide">
-                {badgeText}
+                {styles.label}
             </p>
         </div>
     );
@@ -33,17 +52,12 @@ const Category = ({
     title: string;
     score: number;
 }) => {
-    const textColor =
-        score > 69
-            ? "text-emerald-300"
-            : score > 49
-                ? "text-yellow-300"
-                : "text-red-300";
+    const styles = getScoreStyles(score);
 
     return (
         <div className="resume-summary">
             <div className="category bg-zinc-900/50 border border-zinc-800 backdrop-blur-xl rounded-2xl">
-                <div className="flex flex-row gap-2 items-center justify-center">
+                <div className="flex flex-row gap-2 items-center max-sm:flex-col max-sm:items-start">
                     <p className="text-2xl text-zinc-100">
                         {title}
                     </p>
@@ -51,8 +65,8 @@ const Category = ({
                     <ScoreBadge score={score} />
                 </div>
 
-                <p className="text-2xl text-zinc-300">
-                    <span className={textColor}>
+                <p className="text-2xl text-zinc-300 shrink-0">
+                    <span className={styles.text}>
                         {score}
                     </span>
                     /100
@@ -61,6 +75,25 @@ const Category = ({
         </div>
     );
 };
+
+const categories = [
+    {
+        title: "Tone & Style",
+        scoreKey: "toneAndStyle",
+    },
+    {
+        title: "Content",
+        scoreKey: "content",
+    },
+    {
+        title: "Structure",
+        scoreKey: "structure",
+    },
+    {
+        title: "Skills",
+        scoreKey: "skills",
+    },
+] as const;
 
 const Summary = ({ feedback }: { feedback: Feedback }) => {
     return (
@@ -73,31 +106,19 @@ const Summary = ({ feedback }: { feedback: Feedback }) => {
                         Your Resume Score
                     </h2>
 
-                    <p className="text-sm text-zinc-400">
+                    <p className="text-sm text-zinc-400 max-w-lg">
                         This score is calculated based on the variables listed below.
                     </p>
                 </div>
             </div>
 
-            <Category
-                title="Tone & Style"
-                score={feedback.toneAndStyle.score}
-            />
-
-            <Category
-                title="Content"
-                score={feedback.content.score}
-            />
-
-            <Category
-                title="Structure"
-                score={feedback.structure.score}
-            />
-
-            <Category
-                title="Skills"
-                score={feedback.skills.score}
-            />
+            {categories.map((category) => (
+                <Category
+                    key={category.title}
+                    title={category.title}
+                    score={feedback[category.scoreKey].score}
+                />
+            ))}
         </div>
     );
 };
